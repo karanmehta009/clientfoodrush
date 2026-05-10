@@ -83,8 +83,7 @@ function OffersSection() {
 function WhatsTrending({ foods, onAddToCart, addingIds, isAdmin }) {
   const navigate = useNavigate();
   if (!foods || foods.length === 0) return null;
-  // Get 5 random/top foods for the trending section
-  const trendingFoods = [...foods].sort(() => 0.5 - Math.random()).slice(0, 5);
+  const trendingFoods = foods.slice(0, 5);
 
   return (
     <div className="w-full px-4 lg:px-8 pb-1 pt-1">
@@ -215,7 +214,6 @@ function HeroSlider() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const touchStartX = useRef(null);
-  const sliderRef = useRef(null);
   const total = SLIDES.length;
   const countdown = useCountdown();
 
@@ -523,21 +521,24 @@ export default function HomePage() {
     if (user && user.role !== "admin") fetchCart();
   }, [fetchCart, user]);
 
-  useEffect(() => { filterFoods(); }, [deferredSearch, category, foods]);
+  const filterFoods = useCallback(() => {
+    let temp = [...foods];
+    if (category !== "All") temp = temp.filter((f) => f.category?.name === category);
+    if (deferredSearch) temp = temp.filter((f) => f.name.toLowerCase().includes(deferredSearch.toLowerCase()));
+    setFilteredFoods(temp);
+  }, [category, deferredSearch, foods]);
+
+  useEffect(() => { filterFoods(); }, [filterFoods]);
 
   const fetchFoods = async () => {
     try {
       const res = await getFoods();
       setFoods(res.data.foods || []);
       setFilteredFoods(res.data.foods || []);
-    } catch { } finally { setLoading(false); }
-  };
-
-  const filterFoods = () => {
-    let temp = [...foods];
-    if (category !== "All") temp = temp.filter((f) => f.category?.name === category);
-    if (deferredSearch) temp = temp.filter((f) => f.name.toLowerCase().includes(deferredSearch.toLowerCase()));
-    setFilteredFoods(temp);
+    } catch {
+      setFoods([]);
+      setFilteredFoods([]);
+    } finally { setLoading(false); }
   };
 
   const handleAddToCart = async (id) => {
@@ -794,4 +795,3 @@ export default function HomePage() {
     </div>
   );
 }
-

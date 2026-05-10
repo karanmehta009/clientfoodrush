@@ -189,8 +189,8 @@ export default function ProfilePage() {
             {editMode ? (
               <>
                 <button className="px-6 py-3 rounded-2xl font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors" onClick={handleCancelEdit}>Cancel</button>
-                <button className="flex items-center gap-2 px-6 py-3 rounded-2xl font-bold bg-primary hover:bg-orange-600 text-white shadow-lg shadow-primary/20 active:scale-95 transition-all" onClick={handleSave}>
-                  <SaveIcon /> Save Changes
+                <button disabled={loading} className="flex items-center gap-2 px-6 py-3 rounded-2xl font-bold bg-primary hover:bg-orange-600 text-white shadow-lg shadow-primary/20 active:scale-95 transition-all disabled:opacity-70" onClick={handleSave}>
+                  {loading ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <SaveIcon />} Save Changes
                 </button>
               </>
             ) : (

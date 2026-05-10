@@ -51,7 +51,10 @@ function Navbar() {
   }, []);
 
   /* ── Close drawer on route change ── */
-  useEffect(() => { setMobileOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    const id = window.setTimeout(() => setMobileOpen(false), 0);
+    return () => window.clearTimeout(id);
+  }, [location.pathname]);
 
   /* ── ESC closes dropdown + drawer ── */
   useEffect(() => {
@@ -107,7 +110,7 @@ function Navbar() {
 
           {/* ── DESKTOP NAV LINKS ── */}
           <ul className="hidden md:flex items-center gap-1.5" role="list">
-            {navLinks.map(({ label, path, icon, isAdmin, badge }, i) => {
+            {navLinks.map(({ label, path, icon, isAdmin, badge }) => {
               const active = isActive(path);
               return (
                 <li key={path} className="relative group">

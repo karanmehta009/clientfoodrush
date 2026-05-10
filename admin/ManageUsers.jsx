@@ -104,7 +104,7 @@ export default function ManageUsers() {
       await deleteUser(id);
       setUsers(users.filter((u) => u._id !== id));
       showToast("Account purged successfully.", "success");
-    } catch (error) {
+    } catch {
       showToast("Failed to delete user. Connection interrupted.", "error");
     }
   };

@@ -109,7 +109,7 @@ export default function ManageCategories() {
     try {
       const res = await getCategories();
       setCategories(res.data.categories || []);
-    } catch (err) {
+    } catch {
       setCategories([]);
       pushToast("Failed to load categories.", "error");
     } finally {
@@ -131,7 +131,7 @@ export default function ManageCategories() {
       setName("");
       pushToast(`"${name.trim()}" added successfully!`, "success");
       fetchCategories();
-    } catch (err) {
+    } catch {
       pushToast("Error adding category.", "error");
     } finally {
       setLoading(false);
@@ -147,7 +147,7 @@ export default function ManageCategories() {
       await deleteCategory(id);
       pushToast(`"${catName}" deleted.`, "success");
       fetchCategories();
-    } catch (err) {
+    } catch {
       pushToast("Error deleting category.", "error");
     }
   };

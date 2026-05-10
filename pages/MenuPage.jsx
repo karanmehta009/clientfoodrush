@@ -200,7 +200,7 @@ export default function MenuPage() {
     try {
       const res = await getFoods();
       setFoods(res.data.foods || []);
-    } catch (err) {
+    } catch {
       toast.error("Failed to load menu.");
     } finally {
       setLoadingFoods(false);

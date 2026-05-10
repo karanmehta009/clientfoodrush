@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const API = axios.create({
-  baseURL: "https://backendfoodrush-cjba.onrender.com/api",
+  baseURL: API_BASE_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -18,11 +20,7 @@ API.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        await axios.post(
-          "https://backendfoodrush-cjba.onrender.com/api/user/refresh-token",
-          {},
-          { withCredentials: true }
-        );
+        await axios.post(`${API_BASE_URL}/user/refresh-token`, {}, { withCredentials: true });
 
         return API(originalRequest);
       } catch (err) {

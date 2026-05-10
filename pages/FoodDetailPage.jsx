@@ -30,7 +30,7 @@ export default function FoodDetailPage() {
           ...foodData,
           image: foodData.image?.startsWith("http") ? foodData.image : `http://localhost:5000${foodData.image}`
         });
-      } catch (error) {
+      } catch {
         toast.error("Could not locate telemetry for this asset.");
       } finally {
         setLoading(false);
@@ -44,7 +44,7 @@ export default function FoodDetailPage() {
     try {
       await addItem(food._id, 1);
       toast.success("Added to cart!");
-    } catch (err) {
+    } catch {
       toast.error("Failed to add to cart");
     }
   };

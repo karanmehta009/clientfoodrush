@@ -260,7 +260,9 @@ export default function ManageFoods() {
     try {
       const res = await getCategories();
       setCategories(res.data.categories || []);
-    } catch {}
+    } catch {
+      setCategories([]);
+    }
   };
 
   const openModal = useCallback((food = null) => {

@@ -74,7 +74,7 @@ function DashSkeleton() {
 }
 
 /* ── Stat Card ── */
-function StatCard({ label, value, icon, colorCls, bgCls, textCls, index }) {
+function StatCard({ label, value, icon, bgCls, textCls, index }) {
   return (
     <div className={`relative bg-white rounded-[2rem] p-6 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg`} style={{ animationDelay: `${index * 0.08}s` }}>
       <div className={`absolute -right-4 -top-4 w-24 h-24 rounded-full ${bgCls} blur-2xl opacity-40`} />
@@ -150,10 +150,10 @@ export default function Dashboard() {
 
         {/* ── Stat Cards ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-8">
-          <StatCard index={0} label="Total Orders"   value={orders.length}       icon={<OrdersIcon />}  colorCls="red"    bgCls="bg-red-50"    textCls="text-red-500" />
-          <StatCard index={1} label="Total Revenue"  value={`₹${totalRevenue.toLocaleString()}`} icon={<RevenueIcon />} colorCls="green"  bgCls="bg-green-50"  textCls="text-green-500" />
-          <StatCard index={2} label="Food Items"     value={foods.length}        icon={<FoodsIcon />}   colorCls="orange" bgCls="bg-orange-50" textCls="text-orange-500" />
-          <StatCard index={3} label="Registered Users" value={users.length}      icon={<UsersIcon />}   colorCls="purple" bgCls="bg-purple-50" textCls="text-purple-500" />
+          <StatCard index={0} label="Total Orders"   value={orders.length}       icon={<OrdersIcon />}  bgCls="bg-red-50"    textCls="text-red-500" />
+          <StatCard index={1} label="Total Revenue"  value={`₹${totalRevenue.toLocaleString()}`} icon={<RevenueIcon />} bgCls="bg-green-50"  textCls="text-green-500" />
+          <StatCard index={2} label="Food Items"     value={foods.length}        icon={<FoodsIcon />}   bgCls="bg-orange-50" textCls="text-orange-500" />
+          <StatCard index={3} label="Registered Users" value={users.length}      icon={<UsersIcon />}   bgCls="bg-purple-50" textCls="text-purple-500" />
         </div>
 
         {/* ── Mini stats row ── */}
@@ -220,7 +220,7 @@ export default function Dashboard() {
           <div className="bg-white rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] overflow-hidden">
             {orders.length === 0 ? (
                <div className="p-10 text-center text-gray-500 font-bold uppercase tracking-widest text-sm">No orders recorded yet.</div>
-            ) : orders.slice(0, 5).map((order, i) => {
+            ) : orders.slice(0, 5).map((order) => {
               const cfg = STATUS_MAP[order.status] || STATUS_MAP.pending;
               return (
                 <div key={order._id} className="flex items-center gap-4 p-5 md:p-6 border-b border-gray-100/60 transition-colors hover:bg-gray-50/50 last:border-0 cursor-pointer" onClick={() => window.location.href="/admin/orders"}>

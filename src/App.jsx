@@ -8,18 +8,13 @@ import { useAuthStore } from "../store/useAuthStore";
 
 function App() {
   const location = useLocation();
-  const [hydrated, setHydrated] = useState(false);
+  const [hydrated, setHydrated] = useState(() => Boolean(useAuthStore.persist?.hasHydrated()));
 
   useEffect(() => {
     // 1. Listen for hydration
     const unsub = useAuthStore.persist?.onFinishHydration(() => setHydrated(true));
     
-    // 2. Immediate check
-    if (useAuthStore.persist?.hasHydrated()) {
-      setHydrated(true);
-    }
-
-    // 3. NUCLEAR FALLBACK: Force show after 600ms
+    // 2. Fallback: force show after 600ms
     const timer = setTimeout(() => setHydrated(true), 600);
 
     return () => {
