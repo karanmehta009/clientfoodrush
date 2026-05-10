@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>client</title>
     <script>
+      (function () {
+        var productionHost = "clientfoodrush.vercel.app";
+        var host = window.location.hostname;
+        var isClientFoodRushPreview =
+          host !== productionHost &&
+          host.indexOf("clientfoodrush-") === 0 &&
+          host.lastIndexOf(".vercel.app") === host.length - ".vercel.app".length;
+
+        if (isClientFoodRushPreview) {
+          window.location.replace(
+            "https://" + productionHost + window.location.pathname + window.location.search + window.location.hash
+          );
+        }
+      })();
+    </script>
+    <script>
       window.onerror = function(msg, url, line, col, error) {
         var div = document.createElement('div');
         div.style.position = 'fixed';
