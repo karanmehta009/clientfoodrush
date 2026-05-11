@@ -82,7 +82,7 @@ function StatCard({ label, value, icon, bgCls, textCls, index }) {
         {icon}
       </div>
       <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">{label}</p>
-      <p className="text-3xl font-black text-gray-900 tracking-tight">{value}</p>
+      <p className="text-2xl font-black text-gray-900 tracking-tight">{value}</p>
     </div>
   );
 }
@@ -137,10 +137,10 @@ export default function Dashboard() {
         {/* ── Page Header ── */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
           <div>
-            <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight mb-2">
+            <h1 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-2">
               <span className="text-primary mr-3">⚡</span>Dashboard
             </h1>
-            <p className="text-gray-500 font-medium text-lg">Welcome back — here's your tactical overview.</p>
+            <p className="text-gray-500 font-medium text-base">Welcome back — here's your tactical overview.</p>
           </div>
           <div className="inline-flex items-center gap-2 bg-white px-5 py-2.5 rounded-full border border-gray-100 shadow-sm text-sm font-bold text-gray-700">
             <ClockIcon />
@@ -187,7 +187,7 @@ export default function Dashboard() {
         <section className="mb-12">
           <div className="flex justify-between items-end border-b border-gray-200/50 pb-4 mb-6">
             <div>
-              <h2 className="text-2xl font-black text-gray-900 tracking-tight">Rapid Access</h2>
+              <h2 className="text-xl font-black text-gray-900 tracking-tight">Rapid Access</h2>
               <p className="text-gray-500 font-medium text-sm mt-1">Manage global records</p>
             </div>
           </div>
@@ -203,7 +203,7 @@ export default function Dashboard() {
                 <div className={`w-14 h-14 rounded-2xl bg-gray-50 text-gray-400 flex items-center justify-center mb-5 transition-colors ${color}`}>
                    {icon}
                 </div>
-                <span className="block text-lg font-bold text-gray-900 mb-1 tracking-tight group-hover:text-primary transition-colors">{label}</span>
+                <span className="block text-base font-bold text-gray-900 mb-1 tracking-tight group-hover:text-primary transition-colors">{label}</span>
                 <span className="block text-sm font-medium text-gray-500">{sub}</span>
               </a>
             ))}
@@ -213,7 +213,7 @@ export default function Dashboard() {
         {/* ── Recent Orders ── */}
         <section>
           <div className="flex justify-between items-end border-b border-gray-200/50 pb-4 mb-6">
-            <h2 className="text-2xl font-black text-gray-900 tracking-tight">Recent Orders Tracker</h2>
+            <h2 className="text-xl font-black text-gray-900 tracking-tight">Recent Orders Tracker</h2>
             <a href="/admin/orders" className="text-primary font-bold text-sm tracking-wide hover:underline uppercase">View All →</a>
           </div>
 
@@ -236,7 +236,7 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  <p className="font-black text-gray-900 text-lg mr-4 drop-shadow-sm">₹{order.totalPrice}</p>
+                  <p className="font-black text-gray-900 text-base mr-4 drop-shadow-sm">₹{order.totalPrice}</p>
 
                   <span className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border bg-white ${cfg.cls}`}>
                     <span className={`w-2 h-2 rounded-full ${cfg.dot}`} />

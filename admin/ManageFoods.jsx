@@ -71,8 +71,8 @@ function FoodCard({ food, onEdit, onDelete }) {
       </div>
 
       <div className="flex flex-col flex-1 z-10">
-        <h3 className="text-xl font-bold text-gray-900 leading-tight mb-1 group-hover:text-primary transition-colors">{food.name}</h3>
-        <p className="text-2xl font-black text-gray-900 tracking-tight mt-auto pt-4 border-t border-gray-100 border-dashed">₹{food.price}</p>
+        <h3 className="text-base font-bold text-gray-900 leading-tight mb-1 group-hover:text-primary transition-colors">{food.name}</h3>
+        <p className="text-lg font-black text-gray-900 tracking-tight mt-auto pt-4 border-t border-gray-100 border-dashed">₹{food.price}</p>
 
         <div className="flex items-center gap-3 mt-5">
           <button className="flex-1 py-3 bg-gray-50 hover:bg-gray-100 text-gray-700 font-bold rounded-xl flex items-center justify-center gap-2 transition-colors border border-gray-200" onClick={() => onEdit(food)}>
@@ -139,7 +139,7 @@ function FoodModal({ editFood, form, setForm, previewImg, setPreviewImg, categor
         {/* Form Side */}
         <div className="w-full md:w-3/5 p-8 md:p-10 flex flex-col overflow-y-auto">
           <div className="mb-8">
-            <h3 className="text-3xl font-black text-gray-900 tracking-tight">{editFood ? "Edit Menu Item" : "Add Menu Item"}</h3>
+            <h3 className="text-2xl font-black text-gray-900 tracking-tight">{editFood ? "Edit Menu Item" : "Add Menu Item"}</h3>
             <p className="text-gray-500 font-medium mt-1">{editFood ? "Update the culinary details below." : "Deploy a new dish to the catalogue."}</p>
           </div>
 
@@ -288,16 +288,21 @@ export default function ManageFoods() {
       if (form.file) formData.append("image", form.file);
       else if (form.image) formData.append("image", form.image);
 
-      const config = { headers: { "Content-Type": "multipart/form-data" } };
-
-      if (editFood) await updateFood(editFood._id, formData, config);
-      else await addFood(formData, config);
+      if (editFood) await updateFood(editFood._id, formData);
+      else await addFood(formData);
 
       toast.success(editFood ? "Item synchronized!" : "New item deployed!");
       setShowModal(false);
       fetchFoods();
     } catch (error) {
-      toast.error(error.response?.data?.message || "Data transmission failed");
+      const serverMsg = error.response?.data?.message;
+      const validationErrors = error.response?.data?.errors;
+      
+      if (validationErrors && Array.isArray(validationErrors)) {
+        validationErrors.forEach(err => toast.error(`${err.field}: ${err.message}`));
+      } else {
+        toast.error(serverMsg || "Data transmission failed");
+      }
     }
   };
 
@@ -333,7 +338,7 @@ export default function ManageFoods() {
               <span className="text-3xl">🍽</span>
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">Manage Foods</h1>
+              <h1 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight leading-tight">Manage Foods</h1>
               <p className="text-gray-500 font-medium text-sm mt-1">{foods.length} items deployed across {categories.length} core categories</p>
             </div>
           </div>

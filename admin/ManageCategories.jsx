@@ -173,7 +173,7 @@ export default function ManageCategories() {
               <FolderIcon />
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">Manage Categories</h1>
+              <h1 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight leading-tight">Manage Categories</h1>
               <p className="text-gray-500 font-medium text-sm mt-1">Organize your entire food catalogue structure</p>
             </div>
           </div>
@@ -233,7 +233,7 @@ export default function ManageCategories() {
           ) : filtered.length === 0 ? (
             <div className="col-span-full py-20 flex flex-col items-center justify-center text-center bg-white rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
               <div className="text-gray-300 mb-6 drop-shadow-sm"><EmptyIcon /></div>
-              <p className="text-2xl font-black text-gray-900 mb-2 tracking-tight">
+              <p className="text-xl font-black text-gray-900 mb-2 tracking-tight">
                 {search ? "No results found" : "No classifications yet"}
               </p>
               <p className="text-gray-500 font-medium">
@@ -248,7 +248,7 @@ export default function ManageCategories() {
                   <FolderIcon />
                 </div>
                 <div className="flex-1 pr-4 min-w-0">
-                  <h3 className="font-bold text-gray-900 text-lg truncate group-hover:text-primary transition-colors">{cat.name}</h3>
+                  <h3 className="font-bold text-gray-900 text-base truncate group-hover:text-primary transition-colors">{cat.name}</h3>
                   <span className="block text-[0.65rem] font-bold text-gray-400 uppercase tracking-widest mt-0.5 truncate">ID: {cat._id?.slice(-6)}</span>
                 </div>
                 <button

@@ -34,7 +34,7 @@ function ConfirmDialog({ visible, onConfirm, onCancel }) {
         <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-6 shadow-inner border border-red-100">
           <WarnLargeIcon />
         </div>
-        <h3 className="text-2xl font-black text-gray-900 tracking-tight mb-2">Erase Account?</h3>
+        <h3 className="text-xl font-black text-gray-900 tracking-tight mb-2">Erase Account?</h3>
         <p className="text-gray-500 font-medium leading-relaxed mb-8 text-sm">
           This operation is irreversible. The user's account records will be permanently removed.
         </p>
@@ -125,7 +125,7 @@ export default function ManageUsers() {
               <span className="text-3xl">👥</span>
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">Identify Registry</h1>
+              <h1 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight leading-tight">Identify Registry</h1>
               <p className="text-gray-500 font-medium text-sm mt-1">Review access parameters and registered user accounts</p>
             </div>
           </div>
@@ -160,7 +160,7 @@ export default function ManageUsers() {
                     <td colSpan="5">
                       <div className="py-20 flex flex-col items-center justify-center text-center">
                         <div className="text-gray-200 mb-6 drop-shadow-sm scale-110"><EmptyIcon /></div>
-                        <h3 className="text-2xl font-black text-gray-900 mb-2 tracking-tight">Zero Identities Detected</h3>
+                        <h3 className="text-xl font-black text-gray-900 mb-2 tracking-tight">Zero Identities Detected</h3>
                         <p className="text-gray-500 font-medium">Wait for external network registrants to appear.</p>
                       </div>
                     </td>

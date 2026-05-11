@@ -56,8 +56,8 @@ const OfferCard = ({ offer }) => {
       <div className="absolute -top-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-xl" />
       <div className="absolute bottom-0 right-2 text-5xl opacity-20 group-hover:opacity-30 transition-opacity">{offer.emoji}</div>
       <p className="text-white/80 text-[10px] font-bold uppercase tracking-widest mb-1">Limited Offer</p>
-      <p className="text-xl font-black leading-tight mb-1">{offer.title}</p>
-      <p className="text-2xl font-black mb-3">{offer.discount}</p>
+      <p className="text-lg font-black leading-tight mb-1">{offer.title}</p>
+      <p className="text-xl font-black mb-3">{offer.discount}</p>
       <button onClick={handleCopy} className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 backdrop-blur rounded-lg text-[11px] font-bold transition-colors">
         <CopyIcon /> {offer.code}
       </button>
@@ -99,7 +99,7 @@ const FoodCard = ({ food, index, isAdding, isFavorite, onAddToCart, onToggleFavo
       </div>
 
       <div className="flex flex-col flex-1 p-5 md:p-6 bg-white z-10 relative">
-        <h3 className="text-[1.15rem] font-bold text-gray-900 leading-snug mb-2 line-clamp-2 group-hover:text-primary transition-colors">{food.name}</h3>
+        <h3 className="text-base font-bold text-gray-900 leading-snug mb-2 line-clamp-2 group-hover:text-primary transition-colors">{food.name}</h3>
 
         {/* Rating */}
         <div className="flex items-center gap-1.5 mb-auto">
@@ -112,7 +112,7 @@ const FoodCard = ({ food, index, isAdding, isFavorite, onAddToCart, onToggleFavo
 
         <div className="flex items-center justify-between mt-5 pt-4 border-t border-gray-100 border-dashed">
           <div>
-            <span className="text-2xl font-black text-gray-900 tracking-tight">₹{food.price}</span>
+            <span className="text-xl font-black text-gray-900 tracking-tight">₹{food.price}</span>
             {food.price > 150 && <span className="ml-2 text-xs line-through text-gray-400 font-semibold">₹{Math.round(food.price * 1.2)}</span>}
           </div>
           {!isAdmin && (
@@ -129,7 +129,7 @@ const FoodCard = ({ food, index, isAdding, isFavorite, onAddToCart, onToggleFavo
 // ── CategoryChips
 // ✅ Fix: pulled out of the padded container so sticky works across full width
 const CategoryChips = ({ categories, selected, onSelect, loading }) => (
-  <div className="sticky top-0 z-30 bg-[#f8f9fa]/95 backdrop-blur-2xl border-b border-gray-200/50 py-3 mb-8">
+  <div className="sticky top-0 z-30 bg-[#f8f9fa]/95 backdrop-blur-2xl border-b border-gray-200/50 py-3 mb-4">
     <div className="max-w-[1600px] mx-auto px-4 lg:px-8 flex gap-3 overflow-x-auto pb-1 scrollbar-hide snap-x">
       <button
         className={`snap-center shrink-0 px-6 py-2.5 rounded-full text-sm font-bold tracking-wide transition-all duration-300 ${selected === "all" ? "bg-gray-900 text-white shadow-md scale-105" : "bg-white text-gray-600 border border-gray-200 hover:border-gray-400"}`}
@@ -154,7 +154,17 @@ const CategoryChips = ({ categories, selected, onSelect, loading }) => (
   </div>
 );
 
-// ── Skeleton Loader
+// ── Animated Placeholder Hook
+function useTypingPlaceholder(items, interval = 2500) {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setIndex((i) => (i + 1) % items.length), interval);
+    return () => clearInterval(id);
+  }, [items.length, interval]);
+  return items[index];
+}
+
+// ── Skeleton Loader ──
 const SkeletonLoader = ({ count = 8 }) => (
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
     {Array.from({ length: count }).map((_, i) => (
@@ -181,7 +191,12 @@ export default function MenuPage() {
   const [addingIds, setAddingIds] = useState(new Set());
   const [favorites, setFavorites] = useState(new Set());
   const [quickViewFood, setQuickViewFood] = useState(null);
+  const [searchFocused, setSearchFocused] = useState(false);
   const debounceTimer = useRef(null);
+  const inputRef = useRef(null);
+
+  const SEARCH_HINTS = ["Try \"Double Cheese Pizza\"…", "Try \"Crispy Chicken Burger\"…", "Try \"Garden Fresh Salad\"…", "Try \"Spicy Ramen\"…"];
+  const placeholder = useTypingPlaceholder(SEARCH_HINTS);
 
   const { addItem } = useCartStore();
 
@@ -269,25 +284,66 @@ export default function MenuPage() {
         loading={loadingCategories}
       />
 
-      <div className="max-w-[1600px] mx-auto px-4 lg:px-8 pt-8 pb-4">
+      <div className="max-w-[1600px] mx-auto px-4 lg:px-8 pt-4 pb-4">
 
         {/* ── Header ── */}
-        <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-4xl md:text-6xl font-black text-gray-900 tracking-tight">Our Menu.</h1>
-              <span className="hidden sm:flex items-center gap-1 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-[10px] font-black text-emerald-700 uppercase tracking-wider">Live</span>
+        <header className="flex items-center justify-between gap-6 mb-4">
+          <div className="flex items-center gap-4">
+            <h1 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Our Menu.</h1>
+            <div className="hidden sm:flex items-center gap-2">
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 border border-orange-100">
+                <span className="text-primary"><FireIcon /></span>
+                <span className="text-[9px] font-black text-orange-600 uppercase">{foods.length}+ Dishes</span>
+              </div>
+              <span className="flex items-center gap-1 px-2.5 py-1 bg-emerald-50 border border-emerald-200 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-[9px] font-black text-emerald-700 uppercase tracking-wider">Live</span>
               </span>
             </div>
-            <p className="text-gray-500 font-medium text-lg">Discover your next favorite meal — {foods.length}+ dishes available</p>
           </div>
 
-          <div className="relative w-full lg:w-96 group">
-            <div className="absolute inset-y-0 left-4 flex items-center text-gray-400 group-focus-within:text-primary transition-colors"><SearchIcon /></div>
-            <input type="text" placeholder="Search for pizza, burgers..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full bg-white border-2 border-gray-100 focus:border-primary/50 text-gray-900 font-medium placeholder:text-gray-400 px-12 py-3.5 rounded-[1.5rem] outline-none shadow-sm transition-all duration-300" />
-            {search && <button onClick={() => setSearch("")} className="absolute inset-y-0 right-4 flex items-center text-gray-400 hover:text-gray-900 transition-colors">✕</button>}
+          <div className={`relative group transition-all duration-500 ease-out ${searchFocused || search ? "flex-1 max-w-[400px]" : "w-10 h-10"}`} onClick={() => inputRef.current?.focus()}>
+            <div className={`absolute -inset-0.5 bg-gradient-to-r from-primary via-orange-400 to-primary rounded-full blur-sm opacity-20 transition-all duration-700 group-hover:opacity-40 ${(searchFocused || search) ? "opacity-50 blur-md animate-pulse" : ""}`} />
+            
+            <div className={`relative flex items-center h-10 rounded-full transition-all duration-500 cursor-text overflow-hidden border
+              ${(searchFocused || search)
+                ? "bg-white border-primary/50 shadow-md w-full"
+                : "bg-white border-gray-200 hover:border-primary/30 hover:bg-gray-50 shadow-sm w-10"
+              }`}
+            >
+              <div className={`flex items-center justify-center w-10 h-10 shrink-0 transition-colors duration-500 ${(searchFocused || search) ? "text-primary" : "text-gray-500"}`}>
+                <div className="relative flex items-center justify-center scale-90">
+                  <SearchIcon />
+                  {(searchFocused || search) && (
+                    <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-primary rounded-full animate-ping opacity-75" />
+                  )}
+                </div>
+              </div>
+
+              <input
+                ref={inputRef}
+                type="text"
+                placeholder={placeholder}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
+                className={`flex-1 bg-transparent text-gray-900 font-bold placeholder:text-gray-400 placeholder:font-medium py-1 outline-none text-xs min-w-0 transition-opacity duration-300 ${(searchFocused || search) ? "opacity-100" : "opacity-0"}`}
+              />
+
+              {search && (
+                <button onClick={(e) => { e.stopPropagation(); setSearch(""); inputRef.current?.focus(); }}
+                  className="mr-2 w-5 h-5 flex items-center justify-center rounded-full bg-gray-100 hover:bg-red-100 hover:text-red-500 text-gray-500 text-[10px] font-black transition-colors shrink-0">
+                  ✕
+                </button>
+              )}
+            </div>
+
+            {search && (
+              <div className="absolute top-[calc(100%+8px)] right-0 flex items-center gap-2 z-20 bg-gray-900 px-3 py-1.5 rounded-lg shadow-xl border border-white/10 animate-fadeIn whitespace-nowrap">
+                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{filteredFoods.length} result{filteredFoods.length !== 1 ? "s" : ""}</span>
+              </div>
+            )}
           </div>
         </header>
 
@@ -388,14 +444,14 @@ export default function MenuPage() {
                 <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-[0.65rem] font-bold rounded-full uppercase tracking-widest mb-4">
                   {quickViewFood.category?.name}
                 </span>
-                <h2 className="text-3xl font-black text-gray-900 leading-tight tracking-tight mb-4">{quickViewFood.name}</h2>
+                <h2 className="text-2xl font-black text-gray-900 leading-tight tracking-tight mb-4">{quickViewFood.name}</h2>
                 <p className="text-gray-500 font-medium leading-relaxed mb-8">
                   {quickViewFood.description || "A delicious dish crafted with the finest ingredients to satisfy your cravings and bring absolute joy to your taste buds."}
                 </p>
                 <div className="flex items-center justify-between pt-6 border-t border-gray-100">
                   <div>
                     <p className="text-[0.65rem] font-bold text-gray-400 uppercase tracking-widest mb-1">Price</p>
-                    <span className="text-3xl font-black text-gray-900 tracking-tight">₹{quickViewFood.price}</span>
+                    <span className="text-2xl font-black text-gray-900 tracking-tight">₹{quickViewFood.price}</span>
                   </div>
                   {!isAdmin && (
                     <button

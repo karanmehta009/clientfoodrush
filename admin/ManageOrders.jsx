@@ -445,7 +445,7 @@ function StatCard({ title, value, color, icon }) {
     <div className="bg-white/80 backdrop-blur-2xl border border-gray-100 rounded-3xl p-6 shadow-sm flex items-center justify-between group hover:-translate-y-1 transition-all duration-300 hover:shadow-xl">
       <div>
         <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">{title}</p>
-        <p className="text-3xl font-black text-gray-900 tracking-tight">{value}</p>
+        <p className="text-2xl font-black text-gray-900 tracking-tight">{value}</p>
       </div>
       <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${gradients[color]} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
         {icon}
